@@ -2,7 +2,6 @@
 using BepInEx.Logging;
 using Devdog.General.UI;
 using FluffyUnderware.DevTools.Extensions;
-using HarmonyLib;
 using Invector.vCharacterController;
 using Invector.vItemManager;
 using System;
@@ -20,18 +19,9 @@ namespace UIWindowPageFramework
 
         public static Texture2D Spritemap;
 
-        internal static Harmony harmony = new("test");
-
         internal static Action<GameObject> WindowRegistered;
 
         internal static string CurrentScene = "Intro";
-
-        [HarmonyPatch(typeof(vChangeInputTypeTrigger))]
-        [HarmonyPrefix]
-        static void prefix(ref InputDevice type)
-        {
-            Log.LogInfo(type);
-        }
 
         internal void Awake()
         {
