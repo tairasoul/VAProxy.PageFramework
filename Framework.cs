@@ -6,6 +6,8 @@ using FluffyUnderware.DevTools.Extensions;
 using VAP_API;
 using Invector.vItemManager;
 using Object = UnityEngine.Object;
+using Devdog.General.UI;
+using Invector.Utils;
 
 namespace UIWindowPageFramework
 {
@@ -67,6 +69,10 @@ namespace UIWindowPageFramework
             }
             return null;
         }
+        /// <summary>
+        /// Create a window. Needs to be registered to be added to the UI.
+        /// </summary>
+        /// <param name="name">Name of the window and what's displayed in the top left.</param>
         public static GameObject CreateWindow(string name)
         {
             GameObject window = new(name);
@@ -242,16 +248,37 @@ namespace UIWindowPageFramework
             return window;
         }
 
+        /// <summary>
+        /// Register a window.
+        /// </summary>
+        /// <param name="window">Window to register. Please make sure it's not already registered.</param>
+
         public static void RegisterWindow(GameObject window)
         {
             RegisteredWindows.windows = RegisteredWindows.windows.Add(window);
             Plugin.WindowRegistered.Invoke(window);
         }
 
+        /// <summary>
+        /// Unregister a window.
+        /// </summary>
+        /// <param name="window">Window to unregister. Please make sure it's registered.</param>
+
         public static void UnregisterWindow(GameObject window)
         {
+            MenuArray Pages = GameObject.Find("MAINMENU/Canvas/Pages")?.GetComponent<MenuArray>();
+            if (Pages)
+            {
+                UIWindowPage Page = Pages.pages.Where((UIWindowPage page) => page.name == window.name).ToArray()[0];
+                Pages.pages = Pages.pages.Remove(Page);
+            }
             RegisteredWindows.windows = RegisteredWindows.windows.Remove(window);
         }
+
+        /// <summary>
+        /// Check if a window is registered.
+        /// </summary>
+        /// <param name="window">Window to check registration status of.</param>
 
         public static bool WindowRegistered(GameObject window)
         {
