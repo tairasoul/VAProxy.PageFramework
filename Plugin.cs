@@ -12,7 +12,7 @@ using VAP_API;
 
 namespace UIWindowPageFramework
 {
-    [BepInPlugin("va.proxy.uiwindowpage.framework", "UIWindowPages", "1.0.0")]
+    [BepInPlugin("va.proxy.uiwindowpage.framework", "UIWindowPages", "1.1.0")]
     public class Plugin: BaseUnityPlugin
     {
         public static ManualLogSource Log;
