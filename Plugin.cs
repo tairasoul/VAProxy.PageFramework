@@ -2,7 +2,7 @@
 using BepInEx.Logging;
 using Devdog.General.UI;
 using FluffyUnderware.DevTools.Extensions;
-using Invector.vCharacterController;
+using HarmonyLib;
 using Invector.vItemManager;
 using System;
 using UnityEngine;
@@ -36,7 +36,7 @@ namespace UIWindowPageFramework
                 CurrentScene = New.name;
                 if (CurrentScene != "Intro" && CurrentScene != "Menu" && GameObject.Find("MAINMENU/Canvas/Pages"))
                 {
-                    foreach (GameObject RegisteredWindow in RegisteredWindows.windows)
+                    foreach (GameObject RegisteredWindow in RegisteredWindows.Windows.Keys)
                     {
                         MenuArray Pages = GameObject.Find("MAINMENU/Canvas/Pages").GetComponent<MenuArray>();
                         GameObject Instantiated = RegisteredWindow.Instantiate();
@@ -86,6 +86,7 @@ namespace UIWindowPageFramework
                         WindowTransform.sizeDelta = new Vector2(-280, -80);
                         WindowTransform.anchoredPosition3D = new Vector3(0, 0, 0);
                         Pages.pages = Pages.pages.Add(Instantiated.AddComponent<UIWindowPage>());
+                        RegisteredWindows.Windows.GetValueSafe(RegisteredWindow).Invoke(Instantiated);
                     }
                 }
             };
@@ -138,6 +139,7 @@ namespace UIWindowPageFramework
                     WindowTransform.sizeDelta = new Vector2(-280, 80);
                     WindowTransform.anchoredPosition = new Vector2(420, 236.25f);
                     Pages.pages = Pages.pages.Add(Instantiated.AddComponent<UIWindowPage>());
+                    RegisteredWindows.Windows.GetValueSafe(RegisteredWindow).Invoke(Instantiated);
                 }
             };
         }

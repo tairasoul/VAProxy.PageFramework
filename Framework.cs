@@ -8,6 +8,8 @@ using Invector.vItemManager;
 using Object = UnityEngine.Object;
 using Devdog.General.UI;
 using Invector.Utils;
+using System.Collections.Generic;
+using System;
 
 namespace UIWindowPageFramework
 {
@@ -252,10 +254,24 @@ namespace UIWindowPageFramework
         /// Register a window.
         /// </summary>
         /// <param name="window">Window to register. Please make sure it's not already registered.</param>
+        /// <param name="CreationCallback">Callback called when the window is created.</param>
+
+        public static void RegisterWindow(GameObject window, Action<GameObject> CreationCallback)
+        {
+            RegisteredWindows.Windows.Add(window, CreationCallback);
+            //RegisteredWindows.windows = RegisteredWindows.windows.Add(window);
+            Plugin.WindowRegistered.Invoke(window);
+        }
+
+        /// <summary>
+        /// Register a window.
+        /// </summary>
+        /// <param name="window">Window to register. Please make sure it's not already registered.</param>
 
         public static void RegisterWindow(GameObject window)
         {
-            RegisteredWindows.windows = RegisteredWindows.windows.Add(window);
+            RegisteredWindows.Windows.Add(window, (GameObject obj) => { });
+            //RegisteredWindows.windows = RegisteredWindows.windows.Add(window);
             Plugin.WindowRegistered.Invoke(window);
         }
 
@@ -272,7 +288,8 @@ namespace UIWindowPageFramework
                 UIWindowPage Page = Pages.pages.Where((UIWindowPage page) => page.name == window.name).ToArray()[0];
                 Pages.pages = Pages.pages.Remove(Page);
             }
-            RegisteredWindows.windows = RegisteredWindows.windows.Remove(window);
+            RegisteredWindows.Windows.Remove(window);
+            //RegisteredWindows.windows = RegisteredWindows.windows.Remove(window);
         }
 
         /// <summary>
@@ -282,12 +299,12 @@ namespace UIWindowPageFramework
 
         public static bool WindowRegistered(GameObject window)
         {
-            return RegisteredWindows.windows.Contains(window);
+            return RegisteredWindows.Windows.ContainsKey(window);
         }
     }
 
     internal class RegisteredWindows
     {
-        public static GameObject[] windows = [];
+        public static Dictionary<GameObject, Action<GameObject>> Windows = [];
     }
 }
