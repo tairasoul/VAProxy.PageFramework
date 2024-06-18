@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using HarmonyLib;
 using System.Linq;
-using FluffyUnderware.DevTools.Extensions;
-using VAP_API;
 using Invector.vItemManager;
 using Object = UnityEngine.Object;
 using Devdog.General.UI;
@@ -152,7 +150,7 @@ namespace UIWindowPageFramework
             LBImgTransform.localScale = new Vector3(0.8929f, 0.8929f, 0.8929f);
             LBImgObj.AddComponent<CanvasRenderer>();
             Image LBImg = LBImgObj.AddComponent<Image>();
-            LBImg.sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/UI_LB_Interact_Xbox.png"), new Rect(66.0268f, 64.0268f, 183.9465f, 127.8971f), new Vector2(128, 128));
+            LBImg.sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/UI_LB_Interact_Xbox.png"), new Rect(66.0268f, 64.0268f, 183.9465f, 127.8971f), new Vector2(128, 128));
             LBImg.color = new Color(1, 1, 1, 0.5882f);
             GameObject JoystickRB = JoystickLB.Instantiate();
             Text JoystickText = JoystickRB.Find("Text").GetComponent<Text>();
@@ -172,7 +170,7 @@ namespace UIWindowPageFramework
             GameObject RB = JoystickRB.Find("LB");
             RB.layer = UILayer;
             RB.name = "RB";
-            RB.GetComponent<Image>().sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/UI_RB_Interact_Xbox.png"), new Rect(8.0761f, 64.0268f, 191.8477f, 127.8971f), new Vector2(128, 128));
+            RB.GetComponent<Image>().sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/UI_RB_Interact_Xbox.png"), new Rect(8.0761f, 64.0268f, 191.8477f, 127.8971f), new Vector2(128, 128));
             RB.GetComponent<Image>().color = new Color(1, 1, 1, 0.5882f);
             RectTransform RBTransform = RB.GetComponent<RectTransform>();
             RBTransform.anchoredPosition = new Vector2(29.0127f, 4.8f);
@@ -190,7 +188,7 @@ namespace UIWindowPageFramework
             KeyboardLB.layer = UILayer;
             KeyboardLB.name = "KeyboardQDisplay";
             KeyboardLB.GetComponent<RectTransform>().localScale = new Vector3(0.6325f, 0.6325f, 0.6325f);
-            KeyboardLB.GetComponent<Image>().sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/q.png"), new Rect(7.0761f, 7.0761f, 241.8477f, 241.8477f), new Vector2(128, 128));
+            KeyboardLB.GetComponent<Image>().sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/q.png"), new Rect(7.0761f, 7.0761f, 241.8477f, 241.8477f), new Vector2(128, 128));
             GameObject KeyboardE = JoystickLB.Instantiate();
             KeyboardE.Find("Text").GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-69.2811f, 0, 0);
             Text KeyboardText = KeyboardE.Find("Text").GetComponent<Text>();
@@ -206,7 +204,7 @@ namespace UIWindowPageFramework
             KeyboardRB.name = "KeyboardEDisplay";
             KeyboardRB.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-93.913f, 0, 0);
             KeyboardRB.GetComponent<RectTransform>().localScale = new Vector3(0.6325f, 0.6325f, 0.6325f);
-            KeyboardRB.GetComponent<Image>().sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/e.png"), new Rect(7.0761f, 7.0761f, 241.8477f, 241.8477f), new Vector2(128, 128));
+            KeyboardRB.GetComponent<Image>().sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/e.png"), new Rect(7.0761f, 7.0761f, 241.8477f, 241.8477f), new Vector2(128, 128));
             JoyRBTransform.anchoredPosition3D = new Vector3(51.1296f, 6.2301f, 0);
             RB.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-52.2477f, 50.001f, 89.2853f);
             GameObject Breadcrumbs = Header.AddObject("Breadcrumbs");
@@ -286,7 +284,7 @@ namespace UIWindowPageFramework
             if (Pages)
             {
                 UIWindowPage Page = Pages.pages.Where((UIWindowPage page) => page.name == window.name).ToArray()[0];
-                Pages.pages = Pages.pages.Remove(Page);
+                Pages.pages = Pages.pages.Where((UIWindowPage page) => page != Page).ToArray();
             }
             RegisteredWindows.Windows.Remove(window);
             //RegisteredWindows.windows = RegisteredWindows.windows.Remove(window);
@@ -305,6 +303,6 @@ namespace UIWindowPageFramework
 
     internal class RegisteredWindows
     {
-        public static Dictionary<GameObject, Action<GameObject>> Windows = [];
+        public static Dictionary<GameObject, Action<GameObject>> Windows = new();
     }
 }

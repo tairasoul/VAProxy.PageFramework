@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
-using VAP_API;
 using Object = UnityEngine.Object;
 
 namespace UIWindowPageFramework
@@ -53,14 +52,14 @@ namespace UIWindowPageFramework
             background.AddComponent<CanvasRenderer>();
             background.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
             Image image = background.AddComponent<Image>();
-            Sprite sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/Nuke Panel Sprite.png"), new Rect(0, 0, 32, 32), new Vector2(16, 16));
+            Sprite sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/Nuke Panel Sprite.png"), new Rect(0, 0, 32, 32), new Vector2(16, 16));
             Plugin.Log.LogInfo(sprite);
             image.sprite = sprite;//original.GetComponent<Image>().sprite;
             GameObject checkmark = background.AddObject("Checkmark");
             checkmark.AddComponent<RectTransform>();
             checkmark.AddComponent<CanvasRenderer>();
             Image checkmarkImage = checkmark.AddComponent<Image>();
-            Sprite checkmarkSprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/Checkmark.png"), new Rect(0, 0, 32, 32), new Vector2(16, 16));
+            Sprite checkmarkSprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/Checkmark.png"), new Rect(0, 0, 32, 32), new Vector2(16, 16));
             checkmarkImage.enabled = false;
             toggle.image = checkmarkImage;
             checkmarkImage.sprite = checkmarkSprite;
@@ -144,7 +143,7 @@ namespace UIWindowPageFramework
             background.AddComponent<RectTransform>();
             background.AddComponent<CanvasRenderer>();
             Image bg = background.AddComponent<Image>();
-            bg.sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/Spritemap.png"), new Rect(310, 939, 68, 68), new Vector2(34, 34));
+            bg.sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/Spritemap.png"), new Rect(310, 939, 68, 68), new Vector2(34, 34));
             bg.type = Image.Type.Sliced;
             GameObject FillArea = Slider.AddObject("Fill Area");
             FillArea.AddComponent<RectTransform>().anchoredPosition = new Vector2(-5, 0);
@@ -152,14 +151,14 @@ namespace UIWindowPageFramework
             Fill.AddComponent<RectTransform>();
             Fill.AddComponent<CanvasRenderer>();
             Image fill = Fill.AddComponent<Image>();
-            fill.sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/Spritemap.png"), new Rect(310, 939, 68, 68), new Vector2(34, 34));
+            fill.sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/Spritemap.png"), new Rect(310, 939, 68, 68), new Vector2(34, 34));
             GameObject HandleSlide = Slider.AddObject("Handle Slide Area");
             HandleSlide.AddComponent<RectTransform>();
             GameObject Handle = HandleSlide.AddObject("Handle");
             Handle.AddComponent<RectTransform>();
             Handle.AddComponent<CanvasRenderer>();
             Image handle = Handle.AddComponent<Image>();
-            handle.sprite = Sprite.Create(BundleLoader.GetLoadedAsset<Texture2D>("assets/UITextures/Seperator_bar.png"), new Rect(0, 0, 17, 20), new Vector2(8.5f, 10));
+            handle.sprite = Sprite.Create(Plugin.assets.LoadAsset<Texture2D>("assets/UITextures/Seperator_bar.png"), new Rect(0, 0, 17, 20), new Vector2(8.5f, 10));
             Slider slider = SliderObj.AddComponent<Slider>();
             slider.direction = UnityEngine.UI.Slider.Direction.LeftToRight;
             slider.fillRect = Fill.GetComponent<RectTransform>();
